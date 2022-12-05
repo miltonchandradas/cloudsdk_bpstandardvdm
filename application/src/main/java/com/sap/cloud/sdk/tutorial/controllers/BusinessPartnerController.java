@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sap.cloud.sdk.cloudplatform.connectivity.DefaultDestination;
+import com.sap.cloud.sdk.cloudplatform.connectivity.DestinationAccessor;
 import com.sap.cloud.sdk.cloudplatform.connectivity.HttpDestination;
 import com.sap.cloud.sdk.datamodel.odata.helper.Order;
 import com.sap.cloud.sdk.s4hana.datamodel.odata.namespaces.businesspartner.BusinessPartner;
@@ -26,12 +26,8 @@ public class BusinessPartnerController {
 
     @RequestMapping( value = "/getBusinessPartners", method = RequestMethod.GET )
     public String getBusinessPartners() {
-        final HttpDestination destination = DefaultDestination.builder()
-                                                .property("Name", "mydestination")
-                                                .property("URL", "https://sandbox.api.sap.com/s4hanacloud")
-                                                .property("Type", "HTTP")
-                                                .property("Authentication", "NoAuthentication")
-                                                .build().asHttp();
+        final String destinationName = "mydestination";
+        final HttpDestination destination = DestinationAccessor.getDestination(destinationName).asHttp();
 
         final List<BusinessPartner> businessPartners =
                     new DefaultBusinessPartnerService()
