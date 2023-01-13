@@ -12,3 +12,15 @@ GET http://localhost:8080/getBusinessPartners?mode=fail
 
 ### GET getBusinessPartners
 GET http://localhost:8080/getBusinessPartners?mode=pass
+
+### GET getBusinessPartner
+GET http://localhost:8080/businessPartners/9980001225
+
+
+### PUT updateBusinessPartner
+PUT http://localhost:8080/businessPartners/9980001225
+Content-Type: application/json
+
+{
+    "name": "Kyle"
+}
