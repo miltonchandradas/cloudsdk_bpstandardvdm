@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sap.cloud.sdk.cloudplatform.connectivity.DefaultDestination;
@@ -20,13 +21,22 @@ public class BusinessPartnerController {
     private static final Logger logger = LoggerFactory.getLogger(BusinessPartnerController.class);
 
     @RequestMapping(value = "/getBusinessPartners", method = RequestMethod.GET)
-    public String getBusinessPartners() {
-        final HttpDestination destination = DefaultDestination.builder()
-                                                .property("Name", "mydestination")
-                                                .property("URL", "https://sandbox.api.sap.com/s4hanacloud/")
-                                                .property("Type", "HTTP")
-                                                .property("Authentication", "NoAuthentication")
-                                                .build().asHttp();
+    public String getBusinessPartners(@RequestParam("mode") String mode) {
+        final HttpDestination destination = DefaultDestination.builder().property("Name", "mydestination")
+                .property("URL", "https://sandbox.api.sap.com/s4hanacloud/").property("Type", "HTTP")
+                .property("Authentication", "NoAuthentication").build().asHttp();
+
+        final HttpDestination fakeDestination = DefaultDestination.builder().property("Name", "mydestination")
+                .property("URL", "https://fakesandbox.api.sap.com/s4hanacloud/").property("Type", "HTTP")
+                .property("Authentication", "NoAuthentication").build().asHttp();
+
+        if (mode.equals("fail")) {
+            final List<BusinessPartner> businessPartners = new GetBusinessPartnersCommand(fakeDestination).execute();
+
+            logger.info(String.format("Found %d business partner(s).", businessPartners.size()));
+
+            return new Gson().toJson(businessPartners);
+        }
 
         final List<BusinessPartner> businessPartners = new GetBusinessPartnersCommand(destination).execute();
 
@@ -34,5 +44,5 @@ public class BusinessPartnerController {
 
         return new Gson().toJson(businessPartners);
     }
-    
+
 }
