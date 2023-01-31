@@ -9,6 +9,7 @@ BUILD & RUN:
 ----------------------------------------------------------------------------------------
 
 mvn clean install -Dmaven.test.skip=true
+java -jar application/target/bpstandardvdm-application.jar com.sap.cloud.sdk.tutorial.Application
 
 
 SETUP & DEPLOY:
