@@ -28,6 +28,14 @@ public class BusinessPartnerController {
                                                 .property("Authentication", "NoAuthentication")
                                                 .build().asHttp();
 
+        // TODO: uncomment the line below, if you are using the sandbox service
+        // final HttpDestination destination = DefaultDestination.builder()
+        //                                         .property("Name", "mydestination")
+        //                                         .property("URL", "https://sandbox.api.sap.com/s4hanacloud")
+        //                                         .property("Type", "HTTP")
+        //                                         .property("Authentication", "NoAuthentication")
+        //                                         .build().asHttp();
+
         final List<BusinessPartner> businessPartners = new GetBusinessPartnersCommand(destination).execute();
 
         logger.info(String.format("Found %d business partner(s).", businessPartners.size()));
