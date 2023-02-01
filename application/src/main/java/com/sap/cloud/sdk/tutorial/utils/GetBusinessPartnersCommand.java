@@ -69,7 +69,7 @@ public class GetBusinessPartnersCommand {
                     .filter(BusinessPartner.BUSINESS_PARTNER_CATEGORY.eq(CATEGORY_PERSON))
                     .orderBy(BusinessPartner.LAST_NAME, Order.ASC)
                     .top(200)
-                    .withHeader(APIKEY_HEADER, SANDBOX_APIKEY)
+                    // .withHeader(APIKEY_HEADER, SANDBOX_APIKEY)
                     .executeRequest(destination);
         } catch (ODataException e) {
             throw new ResilienceRuntimeException(e);
