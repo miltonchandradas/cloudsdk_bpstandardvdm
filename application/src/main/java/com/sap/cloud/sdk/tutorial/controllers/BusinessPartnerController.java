@@ -26,12 +26,20 @@ public class BusinessPartnerController {
 
     @RequestMapping( value = "/getBusinessPartners", method = RequestMethod.GET )
     public String getBusinessPartners() {
+
         final HttpDestination destination = DefaultDestination.builder()
                                                 .property("Name", "mydestination")
-                                                .property("URL", "https://sandbox.api.sap.com/s4hanacloud")
+                                                .property("URL", "http://localhost:8081")
                                                 .property("Type", "HTTP")
                                                 .property("Authentication", "NoAuthentication")
                                                 .build().asHttp();
+
+        // final HttpDestination destination = DefaultDestination.builder()
+        //                                         .property("Name", "mydestination")
+        //                                         .property("URL", "https://sandbox.api.sap.com/s4hanacloud")
+        //                                         .property("Type", "HTTP")
+        //                                         .property("Authentication", "NoAuthentication")
+        //                                         .build().asHttp();
 
         final List<BusinessPartner> businessPartners =
                     new DefaultBusinessPartnerService()
