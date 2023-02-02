@@ -69,8 +69,7 @@ public class GetBusinessPartnersCommand {
                     .filter(BusinessPartner.BUSINESS_PARTNER_CATEGORY.eq(CATEGORY_PERSON))
                     .orderBy(BusinessPartner.LAST_NAME, Order.ASC)
                     .top(200)
-                    // TODO: Uncomment the line below, if you are using the sandbox service
-                    .withHeader(APIKEY_HEADER, SANDBOX_APIKEY)
+                    .withHeader(APIKEY_HEADER, System.getenv("API_KEY"))
                     .executeRequest(destination);
         } catch (ODataException e) {
             throw new ResilienceRuntimeException(e);

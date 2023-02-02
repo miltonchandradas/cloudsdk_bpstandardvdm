@@ -63,8 +63,7 @@ public class DeleteBusinessPartnerCommand {
                             BusinessPartner.IS_MALE, 
                             BusinessPartner.IS_FEMALE, 
                             BusinessPartner.CREATION_DATE)
-                    // TODO: uncomment the line below, if you are using the sandbox service
-                    .withHeader(APIKEY_HEADER, SANDBOX_APIKEY)
+                    .withHeader(APIKEY_HEADER, System.getenv("API_KEY"))
                     .executeRequest(destination);
 
             logger.warn("Delete method is not available...");
