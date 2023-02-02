@@ -44,6 +44,7 @@ public class GetBusinessPartnerCommand {
                         ResilienceConfiguration.TimeLimiterConfiguration.of().timeoutDuration(Duration.ofMillis(10000)))
                 .bulkheadConfiguration(ResilienceConfiguration.BulkheadConfiguration.of().maxConcurrentCalls(20));
 
+        // TODO:  id needs to be stored as a parameter for caching...
         final ResilienceConfiguration.CacheConfiguration cacheConfig = ResilienceConfiguration.CacheConfiguration
                 .of(Duration.ofSeconds(10)).withoutParameters();
 
@@ -61,8 +62,13 @@ public class GetBusinessPartnerCommand {
     private BusinessPartner run() {
         try {
             return businessPartnerService.getBusinessPartnerByKey(id)
-                    .select(BusinessPartner.BUSINESS_PARTNER, BusinessPartner.LAST_NAME, BusinessPartner.FIRST_NAME,
-                            BusinessPartner.IS_MALE, BusinessPartner.IS_FEMALE, BusinessPartner.CREATION_DATE)
+                    .select(BusinessPartner.BUSINESS_PARTNER, 
+                            BusinessPartner.LAST_NAME, 
+                            BusinessPartner.FIRST_NAME,
+                            BusinessPartner.IS_MALE, 
+                            BusinessPartner.IS_FEMALE, 
+                            BusinessPartner.CREATION_DATE)
+                    // TODO: Uncomment the line below, if you are using the sandbox service
                     .withHeader(APIKEY_HEADER, SANDBOX_APIKEY)
                     .executeRequest(destination);
         } catch (ODataException e) {

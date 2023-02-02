@@ -6,13 +6,6 @@ GET http://localhost:8080/hello
 GET http://localhost:8080/getBusinessPartners
 
 
-### GET getBusinessPartners
-GET http://localhost:8080/getBusinessPartners?mode=fail
-
-
-### GET getBusinessPartners
-GET http://localhost:8080/getBusinessPartners?mode=pass
-
 ### GET getBusinessPartner
 GET http://localhost:8080/businessPartners/9980001225
 

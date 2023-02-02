@@ -57,8 +57,12 @@ public class UpdateBusinessPartnerCommand {
     private String run() {
         try {
             BusinessPartner bp = businessPartnerService.getBusinessPartnerByKey(id)
-                    .select(BusinessPartner.BUSINESS_PARTNER, BusinessPartner.LAST_NAME, BusinessPartner.FIRST_NAME,
-                            BusinessPartner.IS_MALE, BusinessPartner.IS_FEMALE, BusinessPartner.CREATION_DATE)
+                    .select(BusinessPartner.BUSINESS_PARTNER, 
+                            BusinessPartner.LAST_NAME, BusinessPartner.FIRST_NAME,
+                            BusinessPartner.IS_MALE, 
+                            BusinessPartner.IS_FEMALE, 
+                            BusinessPartner.CREATION_DATE)
+                    // TODO: Uncomment the line below, if you are using the sandbox service
                     .withHeader(APIKEY_HEADER, SANDBOX_APIKEY)
                     .executeRequest(destination);
 

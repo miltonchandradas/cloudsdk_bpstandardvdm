@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sap.cloud.sdk.cloudplatform.connectivity.DestinationAccessor;
 import com.sap.cloud.sdk.cloudplatform.connectivity.DefaultDestination;
 import com.sap.cloud.sdk.cloudplatform.connectivity.HttpDestination;
 import com.sap.cloud.sdk.datamodel.odata.helper.ModificationResponse;
@@ -33,12 +34,24 @@ public class BusinessPartnerController {
     private static final long serialVersionUID = 1L;
     private static final Logger logger = LoggerFactory.getLogger(BusinessPartnerController.class);
 
-    private final HttpDestination destination = DefaultDestination.builder()
-                                                .property("Name", "mydestination")
-                                                .property("URL", "https://sandbox.api.sap.com/s4hanacloud/")
-                                                .property("Type", "HTTP")
-                                                .property("Authentication", "NoAuthentication")
-                                                .build().asHttp();
+    final String destinationName = "mydestination";
+    final HttpDestination destination = DestinationAccessor.getDestination(destinationName).asHttp();
+
+    // TODO: Uncomment the line below, if you are using the Mock Server
+    // private final HttpDestination destination = DefaultDestination.builder()
+    //                                             .property("Name", "mydestination")
+    //                                             .property("URL", "http://localhost:8081")
+    //                                             .property("Type", "HTTP")
+    //                                             .property("Authentication", "NoAuthentication")
+    //                                             .build().asHttp();
+                                                
+    // TODO: Uncomment the line below, if you are using the sandbox service
+    // private final HttpDestination destination = DefaultDestination.builder()
+    //                                             .property("Name", "mydestination")
+    //                                             .property("URL", "https://sandbox.api.sap.com/s4hanacloud/")
+    //                                             .property("Type", "HTTP")
+    //                                             .property("Authentication", "NoAuthentication")
+    //                                             .build().asHttp();
 
     @GetMapping
     public ResponseEntity<String> getBusinessPartners() {

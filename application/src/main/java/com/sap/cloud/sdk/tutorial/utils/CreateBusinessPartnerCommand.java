@@ -62,6 +62,7 @@ public class CreateBusinessPartnerCommand {
     private ModificationResponse<BusinessPartner> run() {
         try {
             return businessPartnerService.createBusinessPartner(businessPartner)
+                    // TODO: Uncomment the line below, if you are using the sandbox service
                     .withHeader(APIKEY_HEADER, SANDBOX_APIKEY)
                     .executeRequest(destination);
         } catch (ODataException e) {
