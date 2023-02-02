@@ -45,7 +45,7 @@ public class GetBusinessPartnersCommand {
                 .bulkheadConfiguration(ResilienceConfiguration.BulkheadConfiguration.of().maxConcurrentCalls(20));
 
         final ResilienceConfiguration.CacheConfiguration cacheConfig = ResilienceConfiguration.CacheConfiguration
-                .of(Duration.ofSeconds(10)).withoutParameters();
+                .of(Duration.ofSeconds(30)).withoutParameters();
 
         myResilienceConfig.cacheConfiguration(cacheConfig);
     }
@@ -60,10 +60,17 @@ public class GetBusinessPartnersCommand {
     private List<BusinessPartner> run() {
         try {
             return businessPartnerService.getAllBusinessPartner()
-                    .select(BusinessPartner.BUSINESS_PARTNER, BusinessPartner.LAST_NAME, BusinessPartner.FIRST_NAME,
-                            BusinessPartner.IS_MALE, BusinessPartner.IS_FEMALE, BusinessPartner.CREATION_DATE)
+                    .select(BusinessPartner.BUSINESS_PARTNER, 
+                            BusinessPartner.LAST_NAME, 
+                            BusinessPartner.FIRST_NAME,
+                            BusinessPartner.IS_MALE, 
+                            BusinessPartner.IS_FEMALE, 
+                            BusinessPartner.CREATION_DATE)
                     .filter(BusinessPartner.BUSINESS_PARTNER_CATEGORY.eq(CATEGORY_PERSON))
-                    .orderBy(BusinessPartner.LAST_NAME, Order.ASC).top(200).withHeader(APIKEY_HEADER, SANDBOX_APIKEY)
+                    .orderBy(BusinessPartner.LAST_NAME, Order.ASC)
+                    .top(200)
+                    // TODO: Uncomment the line below, if you are using the sandbox service
+                    .withHeader(APIKEY_HEADER, SANDBOX_APIKEY)
                     .executeRequest(destination);
         } catch (ODataException e) {
             throw new ResilienceRuntimeException(e);
